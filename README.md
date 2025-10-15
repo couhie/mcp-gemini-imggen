@@ -62,7 +62,7 @@ cp .env.example .env
 #                Directory will be created automatically if it doesn't exist
 
 # 3. Add to Claude Code
-claude mcp add -s user gemini-imggen uv --directory $(pwd) run mcp-gemini-imggen
+claude mcp add -s user gemini-imggen uv -- --directory $(pwd) run mcp-gemini-imggen
 ```
 
 ## Configuration
@@ -70,7 +70,7 @@ claude mcp add -s user gemini-imggen uv --directory $(pwd) run mcp-gemini-imggen
 ### Claude Code CLI (Recommended)
 
 ```bash
-claude mcp add -s user gemini-imggen uv --directory /absolute/path/to/mcp-gemini-imggen run mcp-gemini-imggen
+claude mcp add -s user gemini-imggen uv -- --directory /absolute/path/to/mcp-gemini-imggen run mcp-gemini-imggen
 ```
 
 ### Manual Setup
