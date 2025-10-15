@@ -1,13 +1,35 @@
 [project]
 name = "mcp-gemini-image"
 version = "1.0.0"
-description = "Gemini image generation MCP server"
+description = "Token-optimized MCP server for Gemini image generation - Returns file paths only (~20 tokens vs 2.4M tokens)"
+readme = "README.md"
+license = {text = "MIT"}
 requires-python = ">=3.10"
+keywords = ["mcp", "gemini", "image-generation", "claude-code", "ai"]
+authors = [
+    {name = "mcp-gemini-image contributors"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 dependencies = [
     "mcp>=1.0.0",
     "google-genai>=0.2.0",
     "python-dotenv>=1.0.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/YOUR_USERNAME/mcp-gemini-image"
+Repository = "https://github.com/YOUR_USERNAME/mcp-gemini-image"
+Issues = "https://github.com/YOUR_USERNAME/mcp-gemini-image/issues"
 
 [project.scripts]
 mcp-gemini-image = "mcp_gemini_image.server:main"
