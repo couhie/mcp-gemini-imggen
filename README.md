@@ -59,6 +59,7 @@ cp .env.example .env
 # Edit .env and set:
 #   GEMINI_API_KEY - Your API key from Google AI Studio
 #   OUTPUT_DIR - Directory for generated images (e.g., ~/Pictures/ai)
+#                Directory will be created automatically if it doesn't exist
 
 # 3. Add to Claude Code
 claude mcp add -s user gemini-imggen uv --directory $(pwd) run mcp-gemini-imggen
@@ -145,12 +146,12 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 Get your API key from [Google AI Studio](https://aistudio.google.com/apikey) and add to `.env`
 
 ### "OUTPUT_DIR environment variable is required"
-Set your desired output directory in `.env` (e.g., `OUTPUT_DIR=~/Pictures/ai`)
+Set your desired output directory in `.env` (e.g., `OUTPUT_DIR=~/Pictures/ai`). The directory will be created automatically if it doesn't exist.
 
 ### Images not generating
 - Verify API key is valid at [Google AI Studio](https://aistudio.google.com/)
-- Ensure OUTPUT_DIR path is valid and writable
-- Check directory permissions
+- Check API quota limits
+- Verify OUTPUT_DIR path is valid (parent directories must be writable)
 
 ## Contributing
 
