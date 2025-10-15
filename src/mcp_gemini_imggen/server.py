@@ -4,7 +4,7 @@
 import os
 import asyncio
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from mcp.server import Server
@@ -87,9 +87,9 @@ async def call_tool(name: str, arguments: Any) -> list[TextContent]:
 
         image_data = part.inline_data.data
 
-        # Save to file with timestamp
-        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        filepath = OUTPUT_DIR / f"gemini_{timestamp}.png"
+        # Save to file with timestamp (ISO 8601 UTC format)
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        filepath = OUTPUT_DIR / f"{timestamp}.png"
 
         # Save image data (check if it's already binary or base64-encoded)
         import base64
