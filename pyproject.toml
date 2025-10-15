@@ -1,5 +1,5 @@
 [project]
-name = "mcp-gemini-image"
+name = "mcp-gemini-imggen"
 version = "1.0.0"
 description = "Token-optimized MCP server for Gemini image generation - Returns file paths only (~20 tokens vs 2.4M tokens)"
 readme = "README.md"
@@ -7,7 +7,7 @@ license = {text = "MIT"}
 requires-python = ">=3.10"
 keywords = ["mcp", "gemini", "image-generation", "claude-code", "ai"]
 authors = [
-    {name = "mcp-gemini-image contributors"}
+    {name = "mcp-gemini-imggen contributors"}
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -27,12 +27,12 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/YOUR_USERNAME/mcp-gemini-image"
-Repository = "https://github.com/YOUR_USERNAME/mcp-gemini-image"
-Issues = "https://github.com/YOUR_USERNAME/mcp-gemini-image/issues"
+Homepage = "https://github.com/YOUR_USERNAME/mcp-gemini-imggen"
+Repository = "https://github.com/YOUR_USERNAME/mcp-gemini-imggen"
+Issues = "https://github.com/YOUR_USERNAME/mcp-gemini-imggen/issues"
 
 [project.scripts]
-mcp-gemini-image = "mcp_gemini_image.server:main"
+mcp-gemini-imggen = "mcp_gemini_imggen.server:main"
 
 [build-system]
 requires = ["hatchling"]

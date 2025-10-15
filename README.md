@@ -1,4 +1,4 @@
-# Gemini Image Generator MCP Server
+# mcp-gemini-imggen
 
 A lightweight, token-optimized MCP server for generating images using Google's Gemini 2.5 Flash Image model.
 
@@ -54,8 +54,8 @@ We tested this approach with both Python and TypeScript implementations:
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/mcp-gemini-image.git
-cd mcp-gemini-image
+git clone https://github.com/YOUR_USERNAME/mcp-gemini-imggen.git
+cd mcp-gemini-imggen
 
 # Create .env file with your API key
 cp .env.example .env
@@ -65,8 +65,8 @@ cp .env.example .env
 ### Option 2: Using pip
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/mcp-gemini-image.git
-cd mcp-gemini-image
+git clone https://github.com/YOUR_USERNAME/mcp-gemini-imggen.git
+cd mcp-gemini-imggen
 
 pip install -e .
 
@@ -82,7 +82,7 @@ Add to your Claude Code MCP configuration:
 ### Using Claude Code CLI
 
 ```bash
-claude mcp add -s user gemini-image-generator uv --directory /absolute/path/to/mcp-gemini-image run mcp-gemini-image
+claude mcp add -s user gemini-imggen uv --directory /absolute/path/to/mcp-gemini-imggen run mcp-gemini-imggen
 ```
 
 ### Manual Configuration
@@ -92,14 +92,14 @@ Add to `~/.claude.json` (or your Claude config file):
 ```json
 {
   "mcpServers": {
-    "gemini-image-generator": {
+    "gemini-imggen": {
       "type": "stdio",
       "command": "uv",
       "args": [
         "--directory",
-        "/absolute/path/to/mcp-gemini-image",
+        "/absolute/path/to/mcp-gemini-imggen",
         "run",
-        "mcp-gemini-image"
+        "mcp-gemini-imggen"
       ],
       "env": {}
     }
@@ -108,8 +108,8 @@ Add to `~/.claude.json` (or your Claude config file):
 ```
 
 **Important**: Use absolute paths, not `~` (tilde). For example:
-- ✅ `/Users/yourname/dev/mcp-gemini-image`
-- ❌ `~/dev/mcp-gemini-image`
+- ✅ `/Users/yourname/dev/mcp-gemini-imggen`
+- ❌ `~/dev/mcp-gemini-imggen`
 
 ## 💡 Usage
 
@@ -129,9 +129,9 @@ Claude Code will automatically display the generated image.
 ## 🏗️ Project Structure
 
 ```
-mcp-gemini-image/
+mcp-gemini-imggen/
 ├── src/
-│   └── mcp_gemini_image/
+│   └── mcp_gemini_imggen/
 │       ├── __init__.py
 │       ├── __main__.py
 │       └── server.py          # Main MCP server implementation (121 lines)
