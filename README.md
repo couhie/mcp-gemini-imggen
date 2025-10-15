@@ -51,7 +51,7 @@ uv --version
 
 ```bash
 # 1. Clone and navigate
-git clone https://github.com/YOUR_USERNAME/mcp-gemini-imggen.git
+git clone https://github.com/couhie/mcp-gemini-imggen.git
 cd mcp-gemini-imggen
 
 # 2. Configure settings

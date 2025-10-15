@@ -27,10 +27,10 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/YOUR_USERNAME/mcp-gemini-imggen"
-Repository = "https://github.com/YOUR_USERNAME/mcp-gemini-imggen"
-Issues = "https://github.com/YOUR_USERNAME/mcp-gemini-imggen/issues"
-Documentation = "https://github.com/YOUR_USERNAME/mcp-gemini-imggen#readme"
+Homepage = "https://github.com/couhie/mcp-gemini-imggen"
+Repository = "https://github.com/couhie/mcp-gemini-imggen"
+Issues = "https://github.com/couhie/mcp-gemini-imggen/issues"
+Documentation = "https://github.com/couhie/mcp-gemini-imggen#readme"
 
 [project.scripts]
 mcp-gemini-imggen = "mcp_gemini_imggen.server:main"
