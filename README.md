@@ -30,13 +30,12 @@ This implementation saves images to disk and returns **only the file path**:
 | **Existing servers** | Base64 data | 2.4M tokens | ❌ Error |
 | **This implementation** | File path | ~20 tokens | ✅ Works |
 
-**Important**: Both Python and TypeScript can achieve the same efficiency with proper design. We chose Python for its simplicity and lightweight footprint (29MB vs 54MB).
 
 ## ✨ Features
 
 - **Token-optimized**: Returns file paths only (~20 tokens vs 2.4M tokens)
 - **Claude Code compatible**: Works within the 25,000 token limit
-- **Lightweight**: Only 29MB dependencies
+- **Lightweight**: Minimal dependencies
 - **Fast**: Quick startup with uv's Rust-powered speed
 - **Simple**: No build step, direct execution with uv
 - **Modern**: Uses latest Python toolchain (uv + Python 3.10+)
@@ -175,19 +174,6 @@ return {"type": "image", "data": "iVBORw0KGgo...", "mimeType": "image/png"}
 return [{"type": "text", "text": "/Users/name/Pictures/ai/gemini_2025-10-15.png"}]
 ```
 
-### Why Python Over TypeScript?
-
-We implemented and tested both:
-
-| Aspect | Python | TypeScript |
-|--------|--------|------------|
-| **Dependencies** | 29 MB | 54 MB |
-| **Code Lines** | 121 | 150 |
-| **Build Step** | None | Required |
-| **Startup Time** | Fast | Slower |
-
-**Conclusion**: For a simple, single-purpose tool, Python's lightweight nature wins.
-
 ### Using uv vs pip
 
 | Feature | uv | pip |
@@ -218,7 +204,6 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - Token-optimized implementation (file path only)
 - Gemini 2.5 Flash Image support
 - Claude Code compatibility verified
-- Python vs TypeScript comparison completed
 - uv-based dependency management
 
 ## 🐛 Troubleshooting
