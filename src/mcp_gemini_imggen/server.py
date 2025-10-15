@@ -22,7 +22,11 @@ API_KEY = os.getenv("GEMINI_API_KEY")
 if not API_KEY:
     raise ValueError("GEMINI_API_KEY environment variable is required")
 
-OUTPUT_DIR = Path.home() / "Pictures" / "ai"
+OUTPUT_DIR_STR = os.getenv("OUTPUT_DIR")
+if not OUTPUT_DIR_STR:
+    raise ValueError("OUTPUT_DIR environment variable is required")
+
+OUTPUT_DIR = Path(OUTPUT_DIR_STR).expanduser()
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # Initialize Gemini client

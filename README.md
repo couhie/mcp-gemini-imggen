@@ -54,9 +54,11 @@ uv --version
 git clone https://github.com/YOUR_USERNAME/mcp-gemini-imggen.git
 cd mcp-gemini-imggen
 
-# 2. Configure API key
+# 2. Configure settings
 cp .env.example .env
-# Edit .env and add your GEMINI_API_KEY
+# Edit .env and set:
+#   GEMINI_API_KEY - Your API key from Google AI Studio
+#   OUTPUT_DIR - Directory for generated images (e.g., ~/Pictures/ai)
 
 # 3. Add to Claude Code
 claude mcp add -s user gemini-imggen uv --directory $(pwd) run mcp-gemini-imggen
@@ -104,7 +106,7 @@ Generate a flat design style cute cat illustration
 
 The server will:
 1. Generate the image using Gemini 2.5 Flash Image
-2. Save it to `~/Pictures/ai/gemini_YYYY-MM-DD_HH-MM-SS.png`
+2. Save it to `$OUTPUT_DIR/gemini_YYYY-MM-DD_HH-MM-SS.png`
 3. Return only the file path (~20 tokens)
 
 Claude Code will automatically display the generated image.
@@ -140,13 +142,15 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 ### "GEMINI_API_KEY environment variable is required"
-1. Get your API key from [Google AI Studio](https://aistudio.google.com/apikey)
-2. Add to `.env`: `GEMINI_API_KEY=your-key-here`
+Get your API key from [Google AI Studio](https://aistudio.google.com/apikey) and add to `.env`
+
+### "OUTPUT_DIR environment variable is required"
+Set your desired output directory in `.env` (e.g., `OUTPUT_DIR=~/Pictures/ai`)
 
 ### Images not generating
-- Verify API key is valid
-- Check quota at [Google AI Studio](https://aistudio.google.com/)
-- Ensure `~/Pictures/ai/` directory exists and is writable
+- Verify API key is valid at [Google AI Studio](https://aistudio.google.com/)
+- Ensure OUTPUT_DIR path is valid and writable
+- Check directory permissions
 
 ## Contributing
 
