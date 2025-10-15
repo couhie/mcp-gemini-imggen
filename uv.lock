@@ -313,7 +313,7 @@ wheels = [
 ]
 
 [[package]]
-name = "mcp-gemini-image"
+name = "mcp-gemini-imggen"
 version = "1.0.0"
 source = { editable = "." }
 dependencies = [
@@ -328,6 +328,9 @@ requires-dist = [
     { name = "mcp", specifier = ">=1.0.0" },
     { name = "python-dotenv", specifier = ">=1.0.0" },
 ]
+
+[package.metadata.requires-dev]
+dev = []
 
 [[package]]
 name = "pyasn1"
