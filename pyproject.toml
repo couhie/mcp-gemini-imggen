@@ -1,0 +1,17 @@
+[project]
+name = "mcp-gemini-image"
+version = "1.0.0"
+description = "Gemini image generation MCP server"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.0.0",
+    "google-genai>=0.2.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.scripts]
+mcp-gemini-image = "mcp_gemini_image.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
