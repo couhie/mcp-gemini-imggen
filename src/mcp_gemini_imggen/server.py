@@ -11,7 +11,7 @@ from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import Tool, TextContent
 from google import genai
-from google.genai.types import GenerateContentConfig
+from google.genai.types import GenerateContentConfig, Part
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -53,6 +53,24 @@ async def list_tools() -> list[Tool]:
                 },
                 "required": ["prompt"],
             },
+        ),
+        Tool(
+            name="generate_image_from_image",
+            description="Transform or edit an existing image using Gemini 2.5 Flash. Returns only the file path.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "input_image_path": {
+                        "type": "string",
+                        "description": "Path to the input image file (supports ~/ expansion)",
+                    },
+                    "prompt": {
+                        "type": "string",
+                        "description": "Instruction for how to transform or edit the image",
+                    }
+                },
+                "required": ["input_image_path", "prompt"],
+            },
         )
     ]
 
@@ -60,9 +78,16 @@ async def list_tools() -> list[Tool]:
 @app.call_tool()
 async def call_tool(name: str, arguments: Any) -> list[TextContent]:
     """Handle tool calls."""
-    if name != "generate_image_from_text":
+    if name == "generate_image_from_text":
+        return await _generate_image_from_text(arguments)
+    elif name == "generate_image_from_image":
+        return await _generate_image_from_image(arguments)
+    else:
         raise ValueError(f"Unknown tool: {name}")
 
+
+async def _generate_image_from_text(arguments: Any) -> list[TextContent]:
+    """Generate image from text prompt."""
     prompt = arguments.get("prompt")
     if not prompt:
         raise ValueError("prompt is required")
@@ -77,36 +102,95 @@ async def call_tool(name: str, arguments: Any) -> list[TextContent]:
             ),
         )
 
-        # Extract base64 image data from response
-        if not response.candidates or not response.candidates[0].content.parts:
-            raise ValueError("No image generated")
-
-        part = response.candidates[0].content.parts[0]
-        if not hasattr(part, "inline_data") or not part.inline_data:
-            raise ValueError("No image data in response")
-
-        image_data = part.inline_data.data
-
-        # Save to file with timestamp (ISO 8601 UTC format)
-        timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-        filepath = OUTPUT_DIR / f"{timestamp}.png"
-
-        # Save image data (check if it's already binary or base64-encoded)
-        import base64
-        with open(filepath, "wb") as f:
-            # If image_data is bytes, write directly; if string, decode from base64
-            if isinstance(image_data, bytes):
-                f.write(image_data)
-            else:
-                f.write(base64.b64decode(image_data))
-
-        # Return ONLY the file path as text
-        return [TextContent(type="text", text=str(filepath))]
+        # Extract and save image
+        return _save_generated_image(response)
 
     except Exception as e:
         import traceback
         error_details = traceback.format_exc()
         raise RuntimeError(f"Image generation failed: {type(e).__name__}: {str(e)}\n\nTraceback:\n{error_details}")
+
+
+async def _generate_image_from_image(arguments: Any) -> list[TextContent]:
+    """Generate image from existing image and prompt."""
+    input_image_path = arguments.get("input_image_path")
+    prompt = arguments.get("prompt")
+
+    if not input_image_path:
+        raise ValueError("input_image_path is required")
+    if not prompt:
+        raise ValueError("prompt is required")
+
+    try:
+        # Expand and validate input path
+        input_path = Path(input_image_path).expanduser().resolve()
+        if not input_path.exists():
+            raise ValueError(f"Input image not found: {input_path}")
+        if not input_path.is_file():
+            raise ValueError(f"Input path is not a file: {input_path}")
+
+        # Read input image
+        with open(input_path, "rb") as f:
+            image_data = f.read()
+
+        # Determine MIME type
+        suffix = input_path.suffix.lower()
+        mime_type_map = {
+            ".png": "image/png",
+            ".jpg": "image/jpeg",
+            ".jpeg": "image/jpeg",
+            ".webp": "image/webp",
+        }
+        mime_type = mime_type_map.get(suffix, "image/png")
+
+        # Generate image with input image and prompt
+        response = client.models.generate_content(
+            model="gemini-2.5-flash-image",
+            contents=[
+                Part.from_bytes(data=image_data, mime_type=mime_type),
+                prompt
+            ],
+            config=GenerateContentConfig(
+                response_modalities=["image"],
+            ),
+        )
+
+        # Extract and save image
+        return _save_generated_image(response)
+
+    except Exception as e:
+        import traceback
+        error_details = traceback.format_exc()
+        raise RuntimeError(f"Image transformation failed: {type(e).__name__}: {str(e)}\n\nTraceback:\n{error_details}")
+
+
+def _save_generated_image(response) -> list[TextContent]:
+    """Extract image from response and save to file."""
+    # Extract base64 image data from response
+    if not response.candidates or not response.candidates[0].content.parts:
+        raise ValueError("No image generated")
+
+    part = response.candidates[0].content.parts[0]
+    if not hasattr(part, "inline_data") or not part.inline_data:
+        raise ValueError("No image data in response")
+
+    image_data = part.inline_data.data
+
+    # Save to file with timestamp (ISO 8601 UTC format)
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    filepath = OUTPUT_DIR / f"{timestamp}.png"
+
+    # Save image data (check if it's already binary or base64-encoded)
+    import base64
+    with open(filepath, "wb") as f:
+        # If image_data is bytes, write directly; if string, decode from base64
+        if isinstance(image_data, bytes):
+            f.write(image_data)
+        else:
+            f.write(base64.b64decode(image_data))
+
+    # Return ONLY the file path as text
+    return [TextContent(type="text", text=str(filepath))]
 
 
 async def async_main():
