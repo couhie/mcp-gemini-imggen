@@ -198,8 +198,9 @@ MIT License - see LICENSE file for details
 
 ## 📝 Changelog
 
-### 1.0.0 (2025-01-15)
+### 1.0.0 (2025-10-15)
 - Initial release
 - Token-optimized implementation (file path only)
 - Gemini 2.5 Flash Image support
 - Claude Code compatibility verified
+- Python vs TypeScript comparison completed
