@@ -91,10 +91,14 @@ async def call_tool(name: str, arguments: Any) -> list[TextContent]:
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filepath = OUTPUT_DIR / f"gemini_{timestamp}.png"
 
-        # Decode and save (assuming base64-encoded PNG)
+        # Save image data (check if it's already binary or base64-encoded)
         import base64
         with open(filepath, "wb") as f:
-            f.write(base64.b64decode(image_data))
+            # If image_data is bytes, write directly; if string, decode from base64
+            if isinstance(image_data, bytes):
+                f.write(image_data)
+            else:
+                f.write(base64.b64decode(image_data))
 
         # Return ONLY the file path as text
         return [TextContent(type="text", text=str(filepath))]
