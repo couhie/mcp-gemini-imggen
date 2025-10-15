@@ -19,11 +19,13 @@ Existing Gemini image generation MCP servers fail in Claude Code with `MCP tool 
 
 ## Features
 
-- Token-optimized: Returns file paths only
-- Claude Code compatible: Works within 25,000 token limit
-- Lightweight: Minimal dependencies
-- Fast: uv-powered startup
-- Simple: No build step required
+- **Token-optimized**: Returns file paths only (~20 tokens vs 2.4M)
+- **Two generation modes**: Text-to-image and image-to-image transformation
+- **Claude Code compatible**: Works within 25,000 token limit
+- **ISO 8601 UTC timestamps**: Globally sortable filenames (`YYYYMMDDTHHMMSSZ.png`)
+- **Lightweight**: Minimal dependencies
+- **Fast**: uv-powered startup
+- **Simple**: No build step required
 
 ## Requirements
 
@@ -99,15 +101,28 @@ Add to `~/.claude.json`:
 
 ## Usage
 
-Once configured, use the MCP tool in Claude Code:
+Once configured, use the MCP tools in Claude Code:
+
+### Text-to-Image Generation
 
 ```
 Generate a flat design style cute cat illustration
 ```
 
+### Image-to-Image Transformation
+
+```
+Transform /Users/name/Pictures/ai/20251015T120000Z.png: make the background blue
+```
+
+**Note**: You must provide the file path to an existing image. Common use cases:
+- Modify previously generated images
+- Transform images already saved on your system
+- Chain transformations: generate → transform → transform again
+
 The server will:
-1. Generate the image using Gemini 2.5 Flash Image
-2. Save it to `$OUTPUT_DIR/gemini_YYYY-MM-DD_HH-MM-SS.png`
+1. Generate/transform the image using Gemini 2.5 Flash
+2. Save it to `$OUTPUT_DIR/YYYYMMDDTHHMMSSZ.png` (ISO 8601 UTC format)
 3. Return only the file path (~20 tokens)
 
 Claude Code will automatically display the generated image.
@@ -131,7 +146,7 @@ Base64-encoded responses cause token explosion:
 {"type": "image", "data": "iVBORw0KGgo...", "mimeType": "image/png"}
 
 # ✅ This server: ~20 tokens
-[{"type": "text", "text": "/Users/name/Pictures/ai/gemini_2025-10-15.png"}]
+[{"type": "text", "text": "/Users/name/Pictures/ai/20251015T120000Z.png"}]
 ```
 
 ## Troubleshooting
